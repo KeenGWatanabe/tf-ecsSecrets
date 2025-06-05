@@ -31,3 +31,16 @@ variable "region" {
   default     = "us-east-1"
   
 }
+
+variable "mongodb_name" {
+  description = "Name of the MongoDB secret in Secrets Manager"
+  type        = string
+  default     = "test/mongodb_uri"
+  
+}
+variable "mongodb_prefix" {
+  description = "Prefix for MongoDB secret name"
+  type        = string
+  default     = "-0qxinJ"
+  
+}

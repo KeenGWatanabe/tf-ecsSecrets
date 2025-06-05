@@ -16,7 +16,7 @@ resource "aws_iam_role" "ecs_task_execution_role" {
 }
 
 ## Attach ECR, Logging policy
-resource "aws_iam_role_policy_attachment" "ecs_execution_role_ecr" {
+resource "aws_iam_role_policy_attachment" "ecs_execution_role_policy" {
   role       = aws_iam_role.ecs_task_execution_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
@@ -36,7 +36,7 @@ resource "aws_iam_role_policy" "ecs_logging" {
           "logs:PutLogEvents"
           ],
         Resource = [
-          "${data.aws_cloudwatch_log_group.ecs_logs.arn}:*",
+          "${aws_cloudwatch_log_group.ecs_logs.arn}:*",
           "${aws_cloudwatch_log_group.xray.arn}:*"
         ] #"arn:aws:logs:us-east-1:255945442255:log-group:/ecs/${var.name_prefix}-app:*"
       }
@@ -81,8 +81,7 @@ resource "aws_iam_role_policy" "ecs_secrets_access" {
         "secretsmanager:GetSecretValue", "secretsmanager:DescribeSecret"
         ],
       Resource = [
-        "arn:aws:secretsmanager:${var.region}:${data.aws_caller_identity.current.account_id}:secret:prod/mongodb_uri*",
-        "arn:aws:secretsmanager:${var.region}:${data.aws_caller_identity.current.account_id}:secret:prod/mongodb_uri-*"
+        "arn:aws:secretsmanager:${var.region}:${data.aws_caller_identity.current.account_id}:secret:${var.mongodb_name}${var.mongodb_prefix}"
         ]  #[data.aws_secretsmanager_secret.mongodb_uri.arn] 
     },
     {
@@ -128,7 +127,7 @@ resource "aws_iam_role_policy" "ecs_execution_secrets" {
           "secretsmanager:DescribeSecret"
         ],
         Resource = [
-          "arn:aws:secretsmanager:${var.region}:${data.aws_caller_identity.current.account_id}:secret:prod/mongodb_uri*"
+          "arn:aws:secretsmanager:${var.region}:${data.aws_caller_identity.current.account_id}:secret:${var.mongodb_name}${var.mongodb_prefix}"
         ]
       },
       {
