@@ -54,7 +54,7 @@ module "ecs" {
   }
 
   tags = {
-    Environment = "production"
+    Environment = "secrets"
     Application = "${var.name_prefix}-app"
   }
 }
