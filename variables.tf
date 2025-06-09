@@ -44,3 +44,9 @@ variable "mongodb_prefix" {
   default     = "OMruUN"
   
 }
+
+variable "secretsmanager_arn" {
+  description = "ARN of the Secrets Manager secret for MongoDB URI"
+  type        = string
+  default     = "arn:aws:secretsmanager:us-east-1:255945442255:secret:test/mongodb_uri-OMruUN"
+}
