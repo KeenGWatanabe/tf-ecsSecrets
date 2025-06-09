@@ -82,8 +82,8 @@ resource "aws_iam_role_policy" "ecs_secrets_access" {
         "secretsmanager:GetSecretValue", "secretsmanager:DescribeSecret"
         ],
       Resource = [
-        "arn:aws:secretsmanager:us-east-1:255945442255:secret:test/mongodb_uri*"
-        #"arn:aws:secretsmanager:${var.region}:${data.aws_caller_identity.current.account_id}:secret:${var.mongodb_name}${var.mongodb_prefix}"
+        "arn:aws:secretsmanager:us-east-1:255945442255:secret:test/mongodb_uri-OMruUN"
+        #"arn:aws:secretsmanager:${var.region}:${data.aws_caller_identity.current.account_id}:secret:${var.mongodb_name}-${var.mongodb_prefix}"
         ]  #[data.aws_secretsmanager_secret.mongodb_uri.arn] 
     },
     # EXPLICITLY DENY SSM ACCESS ###################################
@@ -135,8 +135,8 @@ resource "aws_iam_role_policy" "ecs_execution_secrets" {
           "secretsmanager:DescribeSecret"
         ],
         Resource = [
-          "arn:aws:secretsmanager:us-east-1:255945442255:secret:test/mongodb_uri*"
-          # arn:aws:secretsmanager:${var.region}:${data.aws_caller_identity.current.account_id}:secret:${var.mongodb_name}${var.mongodb_prefix}"
+          "arn:aws:secretsmanager:us-east-1:255945442255:secret:test/mongodb_uri-OMruUN"
+          # arn:aws:secretsmanager:${var.region}:${data.aws_caller_identity.current.account_id}:secret:${var.mongodb_name}-${var.mongodb_prefix}"
         ]
       },
        # 2. (WON'T OVERRIDE ABOVE ALLOW) DENY SSM ####################

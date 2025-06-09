@@ -1,9 +1,9 @@
 terraform {
   backend "s3" {
-    bucket         = "ce-grp-4.tfstate-backend.com"
-    key            = "secrets4r/terraform.tfstate"
+    bucket         = "ce994.tfstate-backend.com"
+    key            = "ce994/terraform.tfstate"
     region         = "us-east-1"
-    dynamodb_table = "ce-grp-4-terraform-state-locks" # Critical for locking
+    dynamodb_table = "ce994-terraform-state-locks" # Critical for locking
   }
 }
 
@@ -17,7 +17,7 @@ resource "random_id" "suffix" {
 
 ## reference by data to tf-secrets ##########################
 # data "aws_secretsmanager_secret" "mongodb_uri" {
-#   # arn = "arn:aws:secretsmanager:us-east-1:255945442255:secret:test/mongodb_uri-0qxinJ"
+#   # arn = "arn:aws:secretsmanager:us-east-1:255945442255:secret:test/mongodb_uri-OMruUN"
 #   name = "test/mongodb_uri"
 # }
  
@@ -84,7 +84,7 @@ resource "aws_ecs_task_definition" "app" {
   container_definitions = jsonencode([
     {
     name      = "${var.name_prefix}-app"
-    image     = "${aws_ecr_repository.app.repository_url}:latest"
+    image     = "${aws_ecr_repository.app.repository_url}"
     essential = true
     portMappings = [{
       containerPort = 5000
@@ -95,9 +95,9 @@ resource "aws_ecs_task_definition" "app" {
     secrets = [
       {
         name  = "MONGODB_URI",
-        valueFrom = "arn:aws:secretsmanager:us-east-1:255945442255:secret:test/mongodb_uri-0qxinJ:MONGODB_URI::"
+        valueFrom = "arn:aws:secretsmanager:us-east-1:255945442255:secret:test/mongodb_uri-OMruUN"
         # valueFrom = "${data.aws_secretsmanager_secret.mongodb_uri.arn}:MONGODB_URI::"
-        #valueFrom = "arn:aws:secretsmanager:${var.region}:${data.aws_caller_identity.current.account_id}:secret:test/mongodb_uri"
+        #valueFrom = "arn:aws:secretsmanager:${var.region}:${data.aws_caller_identity.current.account_id}:secret:test/mongodb_uri-${mongodb_prefix}:MONGODB_URI"
         #valueFrom = "test/mongodb_uri"
       }
     ]

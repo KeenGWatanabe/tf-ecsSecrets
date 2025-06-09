@@ -41,6 +41,6 @@ variable "mongodb_name" {
 variable "mongodb_prefix" {
   description = "Prefix for MongoDB secret name"
   type        = string
-  default     = "-0qxinJ"
+  default     = "OMruUN"
   
 }
